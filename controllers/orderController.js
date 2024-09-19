@@ -17,7 +17,7 @@ exports.createOrder = async (req, res) => {
       return res.status(400).json({ error: 'Yetersiz bakiye.' });
     }
 
-    const order = await Order.create({ userId: user.id, serviceId: service.id, quantity, total_price });
+    const order = await Order.create({ UserId: user.id, ServiceId: service.id, quantity, total_price });
     user.balance -= total_price;
     await user.save();
 
