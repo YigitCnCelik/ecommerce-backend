@@ -201,10 +201,3 @@ Temel testler, kullanıcı kayıt ve giriş işlemlerini kontrol eder.
 └── README.md
 ```
 
-## Katkıda Bulunma
-
-Her türlü katkı, hata bildirimleri veya öneriler memnuniyetle karşılanır. Lütfen bir **issue** açın veya bir **pull request** gönderin.
-
-## Lisans
-
-Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
