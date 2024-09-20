@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // "Bearer" ve token'ı ayırma
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (token == "{{token}}") {
     return res.status(403).send('Token gerekli.');

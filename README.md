@@ -29,15 +29,7 @@ cd ecommerce-backend
 npm install
 ```
 
-### 3. Veritabanını Ayarlayın
-
-Proje SQLite veritabanını kullanır. Veritabanı migration işlemlerini gerçekleştirmek için şu komutu çalıştırın:
-
-```bash
-npx sequelize-cli db:migrate
-```
-
-### 4. Ortam Değişkenlerini Ayarlayın
+### 3. Ortam Değişkenlerini Ayarlayın
 
 `.env` dosyasını projenizin ana dizinine ekleyin ve aşağıdaki ortam değişkenlerini tanımlayın:
 
@@ -49,13 +41,17 @@ PORT=3000
 - **JWT_SECRET**: JWT tokenları oluşturmak için kullanılan gizli anahtar. Bunu güvenli bir anahtar ile değiştirin.
 - **PORT**: Sunucunun çalışacağı port. Varsayılan olarak `3000` kullanılır.
 
-### 5. Sunucuyu Başlatın
+### 4. Sunucuyu Başlatın
 
 ```bash
 npm start
 ```
 
 Sunucu başarılı bir şekilde başlatıldıktan sonra şu adreste çalışacaktır: `http://localhost:3000`.
+
+### 5. Postman ile test edin
+
+Projenin içerisindeki TEST_COLLECTION.json dosyası ile postman üzerinden istekleri gerçekleştirebilirsiniz.
 
 ## API Dökümantasyonu
 

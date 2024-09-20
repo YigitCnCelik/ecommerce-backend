@@ -4,8 +4,8 @@ const sequelize = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
-const Service = require('./models/Service'); // Service modelini içe aktarın
-const seedData = require('./seedData'); // Başlangıç verilerinizi içe aktarın
+const Service = require('./models/Service'); // Import Service model
+const seedData = require('./seedData'); // Import seed data
 
 const app = express();
 app.use(express.json());
@@ -14,31 +14,59 @@ app.use('/auth', authRoutes);
 app.use('/orders', orderRoutes);
 app.use('/services', serviceRoutes);
 
+let server;
+
 const initializeDatabase = async () => {
   try {
-    // Veritabanını senkronize et
+    // Synchronize database
     await sequelize.sync();
 
-    // Veritabanındaki mevcut servisleri kontrol et
+    // Check existing services
     const existingServices = await Service.findAll();
     const existingServiceNames = existingServices.map(service => service.name);
 
-    // Eksik olan servisleri ekle
+    // Add missing services
     for (const service of seedData) {
       if (!existingServiceNames.includes(service.name)) {
         await Service.create(service);
       }
     }
 
-    console.log('Başlangıç verileri eklendi.');
+    console.log('Seed data added.');
   } catch (error) {
-    console.error('Veritabanı senkronizasyonu sırasında bir hata oluştu:', error);
+    console.error('Error during database synchronization:', error);
   }
 };
 
-// Veritabanını başlat ve başlangıç verilerini ekle, ardından sunucuyu başlat
-initializeDatabase().then(() => {
-  app.listen(3000, () => {
-    console.log('Sunucu 3000 portunda çalışıyor.');
+// Initialize database and start server
+const startServer = async () => {
+  await initializeDatabase();
+  server = app.listen(3000, () => {
+    console.log('Server running on port 3000.');
   });
-});
+};
+
+const shutdown = async () => {
+  if (server) {
+    await new Promise((resolve) => {
+      server.close(() => {
+        console.log('Server closed.');
+        resolve();
+      });
+    });
+  }
+
+  if (sequelize) {
+    await sequelize.close()
+      .then(() => {
+        console.log('Database connection closed.');
+      })
+      .catch(err => {
+        console.error('Error closing database connection:', err);
+      });
+  }
+};
+
+startServer();
+
+module.exports = { app, startServer, shutdown, initializeDatabase };

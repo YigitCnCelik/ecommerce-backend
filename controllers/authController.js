@@ -5,8 +5,7 @@ const User = require('../models/User');
 exports.register = async (req, res) => {
   const { name, surname, email, password } = req.body;
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, surname, email, password: hashedPassword });
+    const user = await User.create({ name, surname, email, password});
     res.status(201).json(user);
   } catch (err) {
     res.status(400).json({ error: err.message });
